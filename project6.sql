@@ -1,0 +1,73 @@
+CREATE DATABASE project6;
+
+USE project6;
+
+CREATE TABLE admin (
+id INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+username VARCHAR(20) DEFAULT NULL,
+password VARCHAR(20) DEFAULT NULL,
+last_log_date DATETIME default NULL,
+PRIMARY KEY (id),
+INDEX (id),
+)ENGINE =InnoDB;
+
+
+CREATE TABLE artists (
+artist_id INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+first_name VARCHAR(20) DEFAULT NULL,
+middle_name VARCHAR(20) DEFAULT NULL,
+last_name VARCHAR(40) NOT NULL,
+PRIMARY KEY (artist_id),
+INDEX full_name (last_name, first_name)
+) ENGINE=MyISAM;
+
+CREATE TABLE prints (
+print_id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT,
+artist_id INT(3) UNSIGNED NOT NULL,
+print_name VARCHAR(60) NOT NULL,
+price DECIMAL(6,2) UNSIGNED NOT NULL,
+quantity INT(50) UNSIGNED NOT NULL,
+size VARCHAR(60) DEFAULT NULL,
+description VARCHAR(255) DEFAULT NULL,
+image_name VARCHAR(60) NOT NULL,
+PRIMARY KEY (print_id),
+INDEX (artist_id),
+INDEX (print_name),
+INDEX (price)
+) ENGINE=MyISAM;
+
+CREATE TABLE customers (
+customer_id INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+first_name VARCHAR(20) NOT NULL,
+last_name VARCHAR(40) NOT NULL,
+email VARCHAR(60) NOT NULL,
+pass CHAR(40) NOT NULL,
+user_level TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+active CHAR(32),
+registration_date DATETIME NOT NULL,
+PRIMARY KEY (customer_id),
+INDEX email_pass (email, pass)
+) ENGINE=MyISAM;
+
+CREATE TABLE orders (
+order_id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+customer_id INT(5) UNSIGNED NOT NULL,
+total DECIMAL(10,2) UNSIGNED NOT NULL,
+order_date TIMESTAMP,
+PRIMARY KEY (order_id),
+INDEX (customer_id),
+INDEX (order_date)
+) ENGINE=InnoDB;
+
+CREATE TABLE order_contents (
+oc_id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+order_id INT(10) UNSIGNED NOT NULL,
+print_id INT(4) UNSIGNED NOT NULL,
+quantity TINYINT UNSIGNED NOT NULL DEFAULT 1,
+price DECIMAL(6,2) UNSIGNED NOT NULL,
+ship_date DATETIME default NULL,
+PRIMARY KEY (oc_id),
+INDEX (order_id),
+INDEX (print_id),
+INDEX (ship_date)
+) ENGINE=InnoDB;
